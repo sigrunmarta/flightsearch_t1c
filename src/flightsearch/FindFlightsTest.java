@@ -51,12 +51,22 @@ public class FindFlightsTest {
 		
 		testFlights = findFlights.getFlightsFromTo(flights,departure, arrival);
 		
-		Flight correctFlight = testFlights.get(0);
-		
-		assertEquals(correct_id, correctFlight.getFlightNumber());
-		
+		assertEquals(correct_id, testFlights.get(0).getFlightNumber());
+		assertNotEquals(3, testFlights.get(0).getFlightNumber());
 	}
 	
-	
-
+	@Test
+	public void testGetFlightsDepartureArrival(){
+		
+		String departure = "2015-03-30";
+		String arrival = "2015-03-31";
+		int correct_id = 1;
+		
+		ArrayList<Flight> testFlights = new ArrayList<Flight>();
+		
+		testFlights = findFlights.getFlightsDepartureArrival(flights, departure, arrival);
+		
+		assertEquals(correct_id, testFlights.get(0).getFlightNumber());
+		assertNotEquals(3, testFlights.get(0).getFlightNumber());
+	}
 }
