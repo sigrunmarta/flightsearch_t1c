@@ -62,18 +62,8 @@ public class FlightTest {
 	}
 
 	@Test
-	public void testSetToAirport() {
-		fail("Not yet implemented");
-	}
-
-	@Test
 	public void testGetDateDeparture() {
 		assertEquals(dateDeparture, flightToTest.getDateDeparture());
-	}
-
-	@Test
-	public void testSetDateDeparture() {
-		fail("Not yet implemented");
 	}
 
 	@Test
@@ -82,18 +72,8 @@ public class FlightTest {
 	}
 
 	@Test
-	public void testSetDateArrival() {
-		fail("Not yet implemented");
-	}
-
-	@Test
 	public void testGetTimeDeparture() {
 		assertEquals(timeDeparture, flightToTest.getTimeDeparture());
-	}
-
-	@Test
-	public void testSetTimeDeparture() {
-		fail("Not yet implemented");
 	}
 
 	@Test
@@ -102,18 +82,8 @@ public class FlightTest {
 	}
 
 	@Test
-	public void testSetTimeArrival() {
-		fail("Not yet implemented");
-	}
-
-	@Test
 	public void testGetAvailableSeats() {
 		assertEquals(availableSeats, flightToTest.getAvailableSeats());
-	}
-
-	@Test
-	public void testSetAvailableSeats() {
-		fail("Not yet implemented");
 	}
 
 	@Test
@@ -122,79 +92,7 @@ public class FlightTest {
 	}
 
 	@Test
-	public void testSetPrice() {
-		fail("Not yet implemented");
-	}
-
-	@Test
 	public void testGetFlightNumber() {
 		assertEquals(flightNumber, flightToTest.getFlightNumber());
 	}
-
-	@Test
-	public void testSetFlightNumber() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testObject() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetClass() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testHashCode() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testEquals() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testClone() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testToString() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testNotify() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testNotifyAll() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testWaitLong() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testWaitLongInt() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testWait() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testFinalize() {
-		fail("Not yet implemented");
-	}
-
 }
-
