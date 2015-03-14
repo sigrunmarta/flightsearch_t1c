@@ -3,8 +3,6 @@ package flightsearch;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
-import java.util.logging.Logger;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -52,7 +50,6 @@ public class FindFlightsTest {
 		testFlights = findFlights.getFlightsFromTo(flights,departure, arrival);
 		
 		assertEquals(correct_id, testFlights.get(0).getFlightNumber());
-		assertNotEquals(3, testFlights.get(0).getFlightNumber());
 	}
 	
 	@Test
@@ -67,6 +64,5 @@ public class FindFlightsTest {
 		testFlights = findFlights.getFlightsDepartureArrival(flights, departure, arrival);
 		
 		assertEquals(correct_id, testFlights.get(0).getFlightNumber());
-		assertNotEquals(3, testFlights.get(0).getFlightNumber());
 	}
 }
