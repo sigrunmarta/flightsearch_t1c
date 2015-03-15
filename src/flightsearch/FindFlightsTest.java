@@ -30,7 +30,6 @@ public class FindFlightsTest {
 		flights.add(f3);
 		flights.add(f4);
 		
-//		findFlights = new FindFlights();
 	}
 
 	@After
