@@ -1,10 +1,82 @@
 package flightsearch;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 public class FindFlights {
-
+	Connection conn = null;
+	ResultSet rs = null;
+	PreparedStatement pst = null;
+	Statement stmt= null;
+	
 	private ArrayList<Flight> flights;
+	
+	public ArrayList<Flight> dbflights(String fromAirport)
+	{
+		conn = Db_connector.dbConnect();
+		
+		String sql = "SELECT * FROM Flights WHERE fromAirport=? AND dateDeparture=?";
+		try{
+			pst = conn.prepareStatement(sql);
+			//pst.setString(1, fromAirport);
+			pst.setString(1, "London");
+			pst.setString(2, "2015-03-01");
+			rs = pst.executeQuery();
+			//stmt=conn.createStatement();
+			//rs=stmt.executeQuery(sql);
+			
+			while(rs.next()){
+				/**
+				 * Retrieve data from each row from the result set
+				 */
+				String rsFromAirport = rs.getString("fromAirport");
+				String rsToAirport = rs.getString("toAirport");
+				String rsDateDeparture = rs.getString("dateDeparture");
+				String rsTimeDeparture = rs.getString("timeDeparture");
+				String rsDateArrival = rs.getString("dateArrival");
+				String rsTimeArrival = rs.getString("timeArrival");
+				// todo: setja thetta i DB
+				int rsAvailableSeats = 100;
+				int rsPrice = 1000;
+				int rsFlightNumber = 555;
+				
+				/**
+				 * Create a new Flight object with the data
+				 */
+				Flight rightFlight = new Flight(rsFromAirport, 
+										   rsToAirport, 
+										   rsDateDeparture, 
+										   rsDateArrival, 
+										   rsTimeDeparture, 
+										   rsTimeArrival, 
+										   rsAvailableSeats, 
+										   rsPrice, 
+										   rsFlightNumber);
+				
+				/**
+				 * Add the Flight object to a list of flights that
+				 * match the criteria
+				 */
+				flights.add(rightFlight);
+				
+				
+				// DEBUG
+				System.out.println("fromAirport: " + fromAirport);
+				System.out.println("toAirport: " + rsToAirport);
+				System.out.println("Departure Date: " + rsDateDeparture);
+				System.out.println("Departure Time: " + rsTimeDeparture);
+				System.out.println("Arrival Date: " + rsDateArrival);
+				System.out.println("Arrival Time: " + rsTimeArrival);
+			}
+		}
+		catch(Exception e)
+		{}
+		return flights;
+	}
+	
 	
 	
 	/**
@@ -112,6 +184,8 @@ public class FindFlights {
 	 * 		 the database and return an ArrayList with those flights
 	 * @return All flights that are in the database
 	 */
+	
+	
 	private ArrayList<Flight> getAllFlights()
 	{
 		// example:
