@@ -1,6 +1,7 @@
 package flightsearch;
 
 import java.awt.EventQueue;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -10,8 +11,10 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.JRadioButton;
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 
 
 public class Flight_interface extends JFrame {
@@ -50,6 +53,8 @@ public class Flight_interface extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.X_AXIS));
+		
+		FindFlights findFlights = new FindFlights();
 		
 		JPanel panel = new JPanel();
 		contentPane.add(panel);
@@ -126,18 +131,38 @@ public class Flight_interface extends JFrame {
 		panel.add(rdbtnOneWay);
 		
 		JButton button_FindFlights = new JButton("Find Flights");
-		button_FindFlights.addActionListener(new ActionListener() {
+		button_FindFlights.addActionListener(/**
+		 * @author sigru_000
+		 *
+		 */
+		new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				String fromAiport = txt_fromAirport.getText();
+				String fromAirport = txt_fromAirport.getText();
 				String toAirport = txt_toAirport.getText();
 				String dateDeparture = txt_dateDeparture.getText();
 				String dateArrival = txt_dateArrival.getText();
 				String nrPassengers= txt_nr_passengers.getText();
 				
+				/**
+				 * Get right flights for the input parameters
+				 * See example how to access information below	
+				 */
+				ArrayList<Flight> rightFlights = findFlights.dbflights(fromAirport,toAirport, dateDeparture);
 				
-				//FindFlights.dbflights(fromAiport);
-				
+				if(rightFlights == null){
+					System.out.println("No flight found");
+				}else {
+					int listSize = rightFlights.size();
+					/**
+					 * Example how to access Flight properties
+					 */
+					for(int i = 0; i < listSize; i++){
+						
+						System.out.println("From airport: " + rightFlights.get(i).getFromAirport());
+						System.out.println("To airport: " + rightFlights.get(i).getToAirport());
+					}	
+				}
 			}
 		});
 		button_FindFlights.setBounds(284, 199, 110, 23);

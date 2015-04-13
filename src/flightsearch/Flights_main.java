@@ -8,8 +8,8 @@ public class Flights_main {
 		// TODO Auto-generated method stub
 		FindFlights ff = new FindFlights();
 		//ff.dbflights();
-		ArrayList<Flight> flights = ff.dbflights();
-		System.out.println("Flights: " + flights);
+		//ArrayList<Flight> flights = ff.dbflights();
+		//System.out.println("Flights: " + flights);
 	}
 
 }

@@ -12,21 +12,27 @@ public class FindFlights {
 	PreparedStatement pst = null;
 	Statement stmt= null;
 	
-	private ArrayList<Flight> flights;
+	public ArrayList<Flight> flights;
 	
-	public ArrayList<Flight> dbflights(String fromAirport)
+	public ArrayList<Flight> dbflights(String fromAirport, String toAirport, String dateDeparture)
 	{
 		conn = Db_connector.dbConnect();
 		
-		String sql = "SELECT * FROM Flights WHERE fromAirport=? AND dateDeparture=?";
+		flights = new ArrayList<Flight>();
+		
+//		String sql = "SELECT * FROM Flights WHERE fromAirport=? AND dateDeparture=?";
+		String sql = "SELECT * FROM Flights WHERE fromAirport=? AND toAirport=? AND dateDeparture=?";
 		try{
 			pst = conn.prepareStatement(sql);
-			//pst.setString(1, fromAirport);
-			pst.setString(1, "London");
-			pst.setString(2, "2015-03-01");
+			pst.setString(1, fromAirport);
+			pst.setString(2, toAirport);
+			pst.setString(3, dateDeparture);
+//			pst.setString(1, "London");
+//			pst.setString(2, "2015-03-01");
+			
 			rs = pst.executeQuery();
-			//stmt=conn.createStatement();
-			//rs=stmt.executeQuery(sql);
+//			stmt=conn.createStatement();
+//			rs=stmt.executeQuery(sql);
 			
 			while(rs.next()){
 				/**
@@ -42,7 +48,6 @@ public class FindFlights {
 				int rsAvailableSeats = 100;
 				int rsPrice = 1000;
 				int rsFlightNumber = 555;
-				
 				/**
 				 * Create a new Flight object with the data
 				 */
@@ -64,16 +69,19 @@ public class FindFlights {
 				
 				
 				// DEBUG
-				System.out.println("fromAirport: " + fromAirport);
-				System.out.println("toAirport: " + rsToAirport);
-				System.out.println("Departure Date: " + rsDateDeparture);
-				System.out.println("Departure Time: " + rsTimeDeparture);
-				System.out.println("Arrival Date: " + rsDateArrival);
-				System.out.println("Arrival Time: " + rsTimeArrival);
+//				System.out.println("fromAirport: " + fromAirport);
+//				System.out.println("toAirport: " + rsToAirport);
+//				System.out.println("Departure Date: " + rsDateDeparture);
+//				System.out.println("Departure Time: " + rsTimeDeparture);
+//				System.out.println("Arrival Date: " + rsDateArrival);
+//				System.out.println("Arrival Time: " + rsTimeArrival);
 			}
 		}
 		catch(Exception e)
-		{}
+		{
+			System.out.println(e);
+		}
+		
 		return flights;
 	}
 	
@@ -186,12 +194,32 @@ public class FindFlights {
 	 */
 	
 	
-	private ArrayList<Flight> getAllFlights()
+	public ArrayList<Flight> getAllFlights()
 	{
 		// example:
 		// ArrayList<Flight> allFlights;
 		// allFlights = FlightDatabase.getAll(); 
 		// return allFlights;
+		
+		conn = Db_connector.dbConnect();
+		
+		String sql = "SELECT * FROM Flights";
+		
+		try{
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			while(rs.next()){
+				String name = rs.getString("fromAirport");
+				System.out.println("From Airport: " + name);
+			}
+			
+			rs.close();
+			stmt.close();
+			conn.close();
+			
+		}catch(Exception e){}
+		
 		
 		return null;
 	}
