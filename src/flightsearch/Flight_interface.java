@@ -19,6 +19,10 @@ import java.util.ArrayList;
 
 public class Flight_interface extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txt_fromAirport;
 	private JTextField txt_toAirport;
@@ -85,11 +89,10 @@ public class Flight_interface extends JFrame {
 		
 		txt_dateDeparture = new JTextField();
 		txt_dateDeparture.setHorizontalAlignment(SwingConstants.TRAILING);
-		txt_dateDeparture.setText("2015-03-31");
 		txt_dateDeparture.setBounds(67, 143, 86, 20);
 		panel.add(txt_dateDeparture);
 		txt_dateDeparture.setColumns(10);
-		
+	
 		JLabel lblNrPassangers = new JLabel("");
 		lblNrPassangers.setBounds(144, 43, 57, 14);
 		panel.add(lblNrPassangers);
@@ -113,7 +116,6 @@ public class Flight_interface extends JFrame {
 		txt_class_type.setColumns(10);
 		
 		txt_dateArrival = new JTextField();
-		txt_dateArrival.setText("2015-03-31");
 		txt_dateArrival.setHorizontalAlignment(SwingConstants.TRAILING);
 		txt_dateArrival.setColumns(10);
 		txt_dateArrival.setBounds(207, 143, 85, 20);
