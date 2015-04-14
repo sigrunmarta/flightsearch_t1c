@@ -1,10 +1,9 @@
 package flightsearch;
 
-import java.util.ArrayList;
-
 public class Flights_main {
 
 	public static void main(String[] args) {
+		System.out.println("Hello Flights!");
 		// TODO Auto-generated method stub
 		FindFlights ff = new FindFlights();
 		//ff.dbflights();

@@ -10,7 +10,8 @@ public static Connection dbConnect()
 	{
 		try{
 			Class.forName("org.sqlite.JDBC");
-			Connection conn = DriverManager.getConnection("jdbc:sqlite:flight_schedule.db");
+			//Connection conn = DriverManager.getConnection("jdbc:sqlite:flight_schedule.db");
+			Connection conn = DriverManager.getConnection("jdbc:sqlite:FlightDB.db");
 			JOptionPane.showMessageDialog(null, "connection successful");
 			return conn;			
 		}

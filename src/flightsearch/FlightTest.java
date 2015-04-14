@@ -2,19 +2,24 @@ package flightsearch;
 
 import static org.junit.Assert.*;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 public class FlightTest {
-
+	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	private Flight flightToTest;
 	
 
 	private String fromAirport = "KEF";
 	private String toAirport = "DEN";
-	private String dateDeparture = "2015-03-30";
-	private String dateArrival = "2015-03-31"; 
+	private Date dateDeparture = dateFormat.parse("2015-03-30");
+	private Date dateArrival = dateFormat.parse("2015-03-31"); 
 	private String timeDeparture = "10:00:00";
 	private String timeArrival = "10:30:00";
 	private int availableSeats = 50;

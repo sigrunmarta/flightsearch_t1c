@@ -1,8 +1,5 @@
 package flightsearch;
-
 import java.util.Date;
-import java.text.SimpleDateFormat;
-
 public class Flight {
 
 	private String fromAirport;
@@ -23,10 +20,10 @@ public class Flight {
 //			int availableSeats, int price, int flightNumber) {
 //		super();
 		
-		public Flight(String fromAirport, String toAirport, Date dateDeparture,
+		public Flight (String fromAirport, String toAirport, Date dateDeparture,
 				Date dateArrival, 
-				int availableSeats, int price, int flightNumber) {
-			super();
+				int availableSeats, int price, int flightNumber) throws Exception {
+		//	super();
 		this.fromAirport = fromAirport;
 		this.toAirport = toAirport;
 		this.dateDeparture = dateDeparture;
@@ -104,9 +101,9 @@ public class Flight {
 //		this.timeArrival = timeArrival;
 //	}
 
-//	public int getAvailableSeats() {
-//		return availableSeats;
-//	}
+	public int getAvailableSeats() {
+		return availableSeats;
+	}
 
 	public void setAvailableSeats(int availableSeats) {
 		this.availableSeats = availableSeats;

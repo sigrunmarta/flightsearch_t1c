@@ -1,5 +1,7 @@
 package flightsearch;
-
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -34,33 +36,36 @@ public class FindFlights {
 //			stmt=conn.createStatement();
 //			rs=stmt.executeQuery(sql);
 			
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			while(rs.next()){
 				/**
 				 * Retrieve data from each row from the result set
 				 */
 				String rsFromAirport = rs.getString("fromAirport");
 				String rsToAirport = rs.getString("toAirport");
-				String rsDateDeparture = rs.getString("dateDeparture");
+				//String rsDateDeparture = rs.getString("dateDeparture");
+				Date rsDateDeparture = dateFormat.parse(rs.getString("dateDeparture"));
 				String rsTimeDeparture = rs.getString("timeDeparture");
-				String rsDateArrival = rs.getString("dateArrival");
+				Date rsDateArrival = dateFormat.parse(rs.getString("dateArrival"));
 				String rsTimeArrival = rs.getString("timeArrival");
 				// todo: setja thetta i DB
 				int rsAvailableSeats = 100;
 				int rsPrice = 1000;
 				int rsFlightNumber = 555;
+				
+				String inputStr = "11-11-2012";
 				/**
 				 * Create a new Flight object with the data
 				 */
 				Flight rightFlight = new Flight(rsFromAirport, 
 										   rsToAirport, 
 										   rsDateDeparture, 
-										   rsDateArrival, 
-										   rsTimeDeparture, 
-										   rsTimeArrival, 
+										   rsDateArrival,
 										   rsAvailableSeats, 
 										   rsPrice, 
 										   rsFlightNumber);
-				
+				 //  rsTimeDeparture, 
+				 //  rsTimeArrival, 
 				/**
 				 * Add the Flight object to a list of flights that
 				 * match the criteria
@@ -99,8 +104,8 @@ public class FindFlights {
 	 */
 	public ArrayList<Flight> getFlights(String fromAirport,
 										String toAirport,
-										String dateDeparture,
-										String dateArrival)
+										Date dateDeparture,
+										Date dateArrival)
 	{
 		// Get all the flights from the database
 		flights = getAllFlights();
@@ -125,8 +130,8 @@ public class FindFlights {
 	 * @return
 	 */
 	public ArrayList<Flight> getFlightsDepartureArrival(
-			ArrayList<Flight> correctFlights, String dateDeparture,
-			String dateArrival) {
+			ArrayList<Flight> correctFlights, Date dateDeparture,
+			Date dateArrival) {
 		
 		ArrayList<Flight> returnFlights = new ArrayList<Flight>();
 		

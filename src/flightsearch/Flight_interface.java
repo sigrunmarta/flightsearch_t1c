@@ -32,6 +32,7 @@ public class Flight_interface extends JFrame {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					Flight_interface frame = new Flight_interface();
@@ -136,6 +137,7 @@ public class Flight_interface extends JFrame {
 		 *
 		 */
 		new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				
 				String fromAirport = txt_fromAirport.getText();
