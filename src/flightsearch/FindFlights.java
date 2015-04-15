@@ -128,8 +128,42 @@ public class FindFlights {
 	 * @param flightNumber is a String that represents a certain flight path eg."RA04"
 	 * @param nrOfPassangers is an int of how many seats are needed 
 	 * @param fromAirport is the name of the departing airport
-	 * @return Returns TRUE if successful, FALSE if failed
+	 * @return Returns TRUE if there are available seats, FALSE if not
 	 */
+	public boolean checkFlightavailablity (String date, String flightNumber, int nrOfPassengers, String fromAirport){
+		int availableSeats = 0;
+		conn = Db_connector.dbConnect();
+		
+		String sql = "SELECT availableSeats FROM Flights WHERE flightNumber=? AND dateDeparture=?"
+				+ " AND fromAirport=?";
+		
+		
+		try{
+			pst = conn.prepareStatement(sql);
+			pst.setString(1, flightNumber);
+			pst.setString(2, date);
+			pst.setString(3, fromAirport);
+			
+			rs = pst.executeQuery();
+			
+			
+			while(rs.next()){
+				availableSeats = rs.getInt("availableSeats");
+				System.out.println(availableSeats);
+			}
+		}
+		catch(Exception e){
+			System.out.println(e);
+			return false;}
+		
+		if(availableSeats >= nrOfPassengers){
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	
 	public boolean bookFlight (String date, String flightNumber, int nrOfPassangers, String fromAirport){
 		int availableSeats = 0;
 		conn = Db_connector.dbConnect();
@@ -148,7 +182,7 @@ public class FindFlights {
 			
 			while(rs.next()){
 				availableSeats = rs.getInt("availableSeats");
-				
+				System.out.println(availableSeats);
 			}
 		}
 		catch(Exception e){

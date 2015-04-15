@@ -113,9 +113,14 @@ public class Flight_interface extends JFrame {
 
 				int nrPassengers = Integer.parseInt(nrPassengersString);
 				
+				boolean resultt = findFlights.checkFlightavailablity("2015-04-29", "RA04", 5, "RVK");
+				System.out.println("Should be true: " + resultt);
+				resultt = findFlights.checkFlightavailablity("2015-04-29", "RA04", 500, "RVK");
+				System.out.println("Should be false: " + resultt);
 				
 				boolean result = findFlights.bookFlight("2015-04-29","RA04", 5, "RVK");
 				System.out.println(result);
+				
 				/**
 				 * Get right flights for the input parameters
 				 * See example how to access information below	
