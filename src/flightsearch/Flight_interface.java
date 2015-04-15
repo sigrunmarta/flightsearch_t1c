@@ -134,10 +134,7 @@ public class Flight_interface extends JFrame {
 		panel.add(rdbtnOneWay);
 		
 		JButton button_FindFlights = new JButton("Find Flights");
-		button_FindFlights.addActionListener(/**
-		 * @author sigru_000
-		 *
-		 */
+		button_FindFlights.addActionListener(
 		new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -146,13 +143,19 @@ public class Flight_interface extends JFrame {
 				String toAirport = txt_toAirport.getText();
 				String dateDeparture = txt_dateDeparture.getText();
 				String dateArrival = txt_dateArrival.getText();
-				String nrPassengers= txt_nr_passengers.getText();
+				String nrPassengersString= txt_nr_passengers.getText();
 				
+
+				int nrPassengers = Integer.parseInt(nrPassengersString);
+				
+				
+				boolean result = findFlights.bookFlight("2015-04-31","RA04", 5, "AK");
+				System.out.println(result);
 				/**
 				 * Get right flights for the input parameters
 				 * See example how to access information below	
 				 */
-				ArrayList<Flight> rightFlights = findFlights.dbflights(fromAirport,toAirport, dateDeparture);
+				ArrayList<Flight> rightFlights = findFlights.dbflights(fromAirport, toAirport, dateDeparture, nrPassengers);
 				
 				if(rightFlights == null){
 					System.out.println("No flight found");

@@ -5,36 +5,31 @@ import java.text.SimpleDateFormat;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 public class FindFlights {
 	Connection conn = null;
 	ResultSet rs = null;
 	PreparedStatement pst = null;
-	Statement stmt= null;
 	
 	public ArrayList<Flight> flights;
 	
-	public ArrayList<Flight> dbflights(String fromAirport, String toAirport, String dateDeparture)
+	public ArrayList<Flight> dbflights(String fromAirport, String toAirport, String dateDeparture, int nrPassengers)
 	{
 		conn = Db_connector.dbConnect();
 		
 		flights = new ArrayList<Flight>();
 		
-//		String sql = "SELECT * FROM Flights WHERE fromAirport=? AND dateDeparture=?";
-		String sql = "SELECT * FROM Flights WHERE fromAirport=? AND toAirport=? AND dateDeparture=?";
+		String sql = "SELECT * FROM Flights WHERE fromAirport=? AND toAirport=? AND dateDeparture=?"
+				+ "AND availableSeats>=?";
 		try{
 			pst = conn.prepareStatement(sql);
 			pst.setString(1, fromAirport);
 			pst.setString(2, toAirport);
 			pst.setString(3, dateDeparture);
-//			pst.setString(1, "London");
-//			pst.setString(2, "2015-03-01");
+			pst.setLong(4, nrPassengers);
 			
 			rs = pst.executeQuery();
-//			stmt=conn.createStatement();
-//			rs=stmt.executeQuery(sql);
 			
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			while(rs.next()){
@@ -43,43 +38,22 @@ public class FindFlights {
 				 */
 				String rsFromAirport = rs.getString("fromAirport");
 				String rsToAirport = rs.getString("toAirport");
-				//String rsDateDeparture = rs.getString("dateDeparture");
 				Date rsDateDeparture = dateFormat.parse(rs.getString("dateDeparture"));
-				String rsTimeDeparture = rs.getString("timeDeparture");
 				Date rsDateArrival = dateFormat.parse(rs.getString("dateArrival"));
-				String rsTimeArrival = rs.getString("timeArrival");
-				// todo: setja thetta i DB
-				int rsAvailableSeats = 100;
-				int rsPrice = 1000;
-				int rsFlightNumber = 555;
+				int rsAvailableSeats = rs.getInt("availableSeats");
+				int rsPrice = rs.getInt("price");
+				String rsFlightNumber = rs.getString("flightNumber");
 				
-				String inputStr = "11-11-2012";
 				/**
 				 * Create a new Flight object with the data
 				 */
-				Flight rightFlight = new Flight(rsFromAirport, 
-										   rsToAirport, 
-										   rsDateDeparture, 
-										   rsDateArrival,
-										   rsAvailableSeats, 
-										   rsPrice, 
-										   rsFlightNumber);
-				 //  rsTimeDeparture, 
-				 //  rsTimeArrival, 
+				Flight rightFlight = new Flight(rsFromAirport, rsToAirport, rsDateDeparture, rsDateArrival, rsAvailableSeats, rsPrice, rsFlightNumber);
+	
 				/**
 				 * Add the Flight object to a list of flights that
 				 * match the criteria
 				 */
 				flights.add(rightFlight);
-				
-				
-				// DEBUG
-//				System.out.println("fromAirport: " + fromAirport);
-//				System.out.println("toAirport: " + rsToAirport);
-//				System.out.println("Departure Date: " + rsDateDeparture);
-//				System.out.println("Departure Time: " + rsTimeDeparture);
-//				System.out.println("Arrival Date: " + rsDateArrival);
-//				System.out.println("Arrival Time: " + rsTimeArrival);
 			}
 		}
 		catch(Exception e)
@@ -90,142 +64,109 @@ public class FindFlights {
 		return flights;
 	}
 	
-	
-	
 	/**
-	 * Get flights based on parameters.
-	 * 
-	 * @param fromAirport From what airport the plane is leaving
-	 * @param toAirport   At what airport the plane is landing
-	 * @param dateDeparture Date of flight departure
-	 * @param dateArrival   Date of flight arrival
-	 * @return ArrayList of Flight objects that correspond to the given
-	 * parameters. Returns null if none exist.
+	 * @return Returns an ArrayList with names of available fromAirports
 	 */
-	public ArrayList<Flight> getFlights(String fromAirport,
-										String toAirport,
-										Date dateDeparture,
-										Date dateArrival)
-	{
-		// Get all the flights from the database
-		flights = getAllFlights();
-		
-		// Create an ArrayList to which we will add all correct flights
-		ArrayList<Flight> correctFlights = new ArrayList<Flight>();
-		
-		// First get the flights that have the correct airports
-		correctFlights = getFlightsFromTo(flights, fromAirport, toAirport);
-		// Second, get the flights that have the correct dates
-		correctFlights = getFlightsDepartureArrival(correctFlights,dateDeparture,dateArrival);
-		
-		
-		return correctFlights;
-	}
-	
-	/**
-	 * This method will create an ArrayList of flights that have the correct dates as requested
-	 * @param correctFlights
-	 * @param dateDeparture
-	 * @param dateArrival
-	 * @return
-	 */
-	public ArrayList<Flight> getFlightsDepartureArrival(
-			ArrayList<Flight> correctFlights, Date dateDeparture,
-			Date dateArrival) {
-		
-		ArrayList<Flight> returnFlights = new ArrayList<Flight>();
-		
-		// Iterate through the flights list
-		for(int i = 0; i < correctFlights.size(); i++){
-			
-			// Get the flight at position i
-			Flight tempFlight = correctFlights.get(i);
-			
-			// Check if the departure date matches
-			if(dateDeparture == tempFlight.getDateDeparture()){
-				
-				// Check if the arrival date matches
-				if(dateArrival == tempFlight.getDateArrival()){
-					
-					// Add it to the return flights list
-					returnFlights.add(tempFlight);
-				}
-			}
-		}
-		
-		return returnFlights;
-	}
-
-	/**
-	 * This method will create an ArrayList of flights that have the
-	 * correct airports as requested
-	 * @param fromAirport
-	 * @param toAirport
-	 * @return An ArrayList of flights that are flying to and from the correct
-	 * airports
-	 */
-	public ArrayList<Flight> getFlightsFromTo(ArrayList<Flight> flightList, String fromAirport,
-											   String toAirport) {
-		
-		ArrayList<Flight> returnFlights = new ArrayList<Flight>();
-		
-		// Iterate through the flights list
-		for(int i = 0; i < flightList.size(); i++){
-			
-			// Get the flight at position i
-			Flight tempFlight = flightList.get(i);
-			
-			// Check if fromAirport matches
-			if(fromAirport == tempFlight.getFromAirport()){
-				
-				// Check if toAirport matches
-				if(toAirport == tempFlight.getToAirport()){
-					
-					// Add it to the return flights list
-					returnFlights.add(tempFlight);
-				}
-			}
-		}
-		
-		return returnFlights;
-	}
-
-
-	/**
-	 * TODO: Here this function would call the class that handles
-	 * 		 the Database connections, and get all the flights from
-	 * 		 the database and return an ArrayList with those flights
-	 * @return All flights that are in the database
-	 */
-	
-	
-	public ArrayList<Flight> getAllFlights()
-	{
-		// example:
-		// ArrayList<Flight> allFlights;
-		// allFlights = FlightDatabase.getAll(); 
-		// return allFlights;
+	public ArrayList<String> getFromAirports(){
+		ArrayList<String> fromAirports = new ArrayList<String>();
 		
 		conn = Db_connector.dbConnect();
 		
-		String sql = "SELECT * FROM Flights";
+		String sql = "SELECT DISTINCT fromAirport FROM flights";
 		
 		try{
-			stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(sql);
+			pst = conn.prepareStatement(sql);
+			rs = pst.executeQuery();
 			
 			while(rs.next()){
-				String name = rs.getString("fromAirport");
-				System.out.println("From Airport: " + name);
+				String fromAirport = rs.getString("fromAirport");
+				fromAirports.add(fromAirport);
 			}
 			
-			rs.close();
-			stmt.close();
-			conn.close();
+		} catch (Exception e){
+			System.out.println(e);
+		}
+		
+		return fromAirports;
+	}
+	
+	/**
+	 * @return Returns an ArrayList with names of available toAirports
+	 */
+	public ArrayList<String> getToAirports(){
+		ArrayList<String> toAirports = new ArrayList<String>();
+		
+		conn = Db_connector.dbConnect();
+		
+		String sql = "SELECT DISTINCT toAirport FROM flights";
+		
+		try{
+			pst = conn.prepareStatement(sql);
+			rs = pst.executeQuery();
 			
-		}catch(Exception e){}
+			while(rs.next()){
+				String toAirport = rs.getString("toAirport");
+				toAirports.add(toAirport);
+			}
+			
+		} catch (Exception e){
+			System.out.println(e);
+		}
+		
+		return toAirports;
+	}
+	/**
+	 * 
+	 * @param date is date in String format eg."2015-04-15"
+	 * @param flightNumber is a String that represents a certain flight path eg."RA04"
+	 * @param nrOfPassangers is an int of how many seats are needed 
+	 * @param fromAirport is the name of the departing airport
+	 * @return
+	 */
+	public boolean bookFlight (String date, String flightNumber, int nrOfPassangers, String fromAirport){
+		int availableSeats = 0;
+		conn = Db_connector.dbConnect();
+		
+		String sql = "SELECT availableSeats FROM Flights WHERE flightNumber=? AND dateDeparture=?"
+				+ " AND fromAirport=?";
 		
 		
-		return null;
+		try{
+			pst = conn.prepareStatement(sql);
+			pst.setString(1, flightNumber);
+			pst.setString(2, date);
+			pst.setString(3, fromAirport);
+			
+			rs = pst.executeQuery();
+			
+			while(rs.next()){
+				availableSeats = rs.getInt("availableSeats");
+				System.out.println(availableSeats);
+			}
+		}
+		catch(Exception e){
+			System.out.println(e);
+			return false;
+		}
+		
+		String sql2 = "UPDATE Flights SET availableSeats=? WHERE flightNumber=? AND dateDeparture=?"
+				+ " AND fromAirport=?";
+		
+		int updatedAvailableSeats = availableSeats-nrOfPassangers;
+		try{
+			pst = conn.prepareStatement(sql2);
+			pst.setInt(1, updatedAvailableSeats);
+			pst.setString(2, flightNumber);
+			pst.setString(3, date);
+			pst.setString(4, fromAirport);
+			pst.executeUpdate();
+			
+			return true;
+		}
+		catch(Exception e){
+			System.out.println(e);			
+			return false;
+		}
+		
 	}
 }

@@ -12,7 +12,7 @@ public class Flight {
 //	private String timeArrival;
 	private int availableSeats;
 	private int price;
-	private int flightNumber;
+	private String flightNumber;
 	
 	// Constructor for Flight
 //	public Flight(String fromAirport, String toAirport, String dateDeparture,
@@ -20,9 +20,13 @@ public class Flight {
 //			int availableSeats, int price, int flightNumber) {
 //		super();
 		
-		public Flight (String fromAirport, String toAirport, Date dateDeparture,
-				Date dateArrival, 
-				int availableSeats, int price, int flightNumber) throws Exception {
+		public Flight (	String fromAirport, 
+						String toAirport, 
+						Date dateDeparture,
+						Date dateArrival, 
+						int availableSeats, 
+						int price, 
+						String flightNumber) {
 		//	super();
 		this.fromAirport = fromAirport;
 		this.toAirport = toAirport;
@@ -117,11 +121,11 @@ public class Flight {
 		this.price = price;
 	}
 
-	public int getFlightNumber() {
+	public String getFlightNumber() {
 		return flightNumber;
 	}
 
-	public void setFlightNumber(int flightNumber) {
+	public void setFlightNumber(String flightNumber) {
 		this.flightNumber = flightNumber;
 	}
 }
