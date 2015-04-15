@@ -9,7 +9,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
-import javax.swing.JRadioButton;
 import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
@@ -19,17 +18,12 @@ import java.util.ArrayList;
 
 public class Flight_interface extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txt_fromAirport;
 	private JTextField txt_toAirport;
 	private JTextField txt_dateDeparture;
 	private JTextField txt_nr_passengers;
-	private JTextField txt_class_type;
-	private JTextField txt_dateArrival;
 
 	/**
 	 * Launch the application.
@@ -66,90 +60,61 @@ public class Flight_interface extends JFrame {
 		panel.setLayout(null);
 		
 		JLabel lbl_DepartureAirport = new JLabel("From :");
-		lbl_DepartureAirport.setBounds(36, 118, 31, 14);
+		lbl_DepartureAirport.setBounds(36, 118, 43, 14);
 		panel.add(lbl_DepartureAirport);
 		
 		JLabel lbl_ArrivalAirport = new JLabel("To : ");
-		lbl_ArrivalAirport.setBounds(176, 118, 31, 14);
+		lbl_ArrivalAirport.setBounds(130, 118, 31, 14);
 		panel.add(lbl_ArrivalAirport);
 		
 		txt_fromAirport = new JTextField();
-		txt_fromAirport.setBounds(67, 115, 86, 20);
+		txt_fromAirport.setBounds(77, 115, 43, 20);
 		panel.add(txt_fromAirport);
 		txt_fromAirport.setColumns(10);
 		
 		txt_toAirport = new JTextField();
-		txt_toAirport.setBounds(207, 115, 85, 20);
+		txt_toAirport.setBounds(158, 115, 43, 20);
 		panel.add(txt_toAirport);
 		txt_toAirport.setColumns(10);
 		
 		JLabel lbl_DepartureDate = new JLabel("Date :");
-		lbl_DepartureDate.setBounds(36, 146, 31, 14);
+		lbl_DepartureDate.setBounds(211, 118, 43, 14);
 		panel.add(lbl_DepartureDate);
 		
 		txt_dateDeparture = new JTextField();
 		txt_dateDeparture.setHorizontalAlignment(SwingConstants.TRAILING);
-		txt_dateDeparture.setBounds(67, 143, 86, 20);
+		txt_dateDeparture.setBounds(245, 115, 86, 20);
 		panel.add(txt_dateDeparture);
 		txt_dateDeparture.setColumns(10);
 	
-		JLabel lblNrPassangers = new JLabel("");
-		lblNrPassangers.setBounds(144, 43, 57, 14);
-		panel.add(lblNrPassangers);
+		JLabel lblNrPassengers = new JLabel("");
+		lblNrPassengers.setBounds(144, 43, 57, 14);
+		panel.add(lblNrPassengers);
 		
 		txt_nr_passengers = new JTextField();
-		txt_nr_passengers.setBounds(36, 200, 124, 20);
+		txt_nr_passengers.setBounds(132, 150, 44, 20);
 		panel.add(txt_nr_passengers);
 		txt_nr_passengers.setColumns(10);
 		
-		JLabel lblNewLabel_2 = new JLabel("Nr. of passengers");
-		lblNewLabel_2.setBounds(36, 185, 92, 14);
-		panel.add(lblNewLabel_2);
-		
-		JLabel lblClass = new JLabel("Class");
-		lblClass.setBounds(176, 185, 46, 14);
-		panel.add(lblClass);
-		
-		txt_class_type = new JTextField();
-		txt_class_type.setBounds(176, 200, 98, 20);
-		panel.add(txt_class_type);
-		txt_class_type.setColumns(10);
-		
-		txt_dateArrival = new JTextField();
-		txt_dateArrival.setHorizontalAlignment(SwingConstants.TRAILING);
-		txt_dateArrival.setColumns(10);
-		txt_dateArrival.setBounds(207, 143, 85, 20);
-		panel.add(txt_dateArrival);
-		
-		JLabel lbl_ArrivalDate = new JLabel("Date :");
-		lbl_ArrivalDate.setBounds(176, 146, 31, 14);
-		panel.add(lbl_ArrivalDate);
-		
-		JRadioButton rdbtnRoundTrip = new JRadioButton("Round trip");
-		rdbtnRoundTrip.setBounds(298, 114, 75, 23);
-		panel.add(rdbtnRoundTrip);
-		
-		JRadioButton rdbtnOneWay = new JRadioButton("One Way");
-		rdbtnOneWay.setBounds(298, 142, 75, 23);
-		panel.add(rdbtnOneWay);
+		JLabel lbl_nr_of_passengers = new JLabel("Nr. of passengers");
+		lbl_nr_of_passengers.setBounds(36, 153, 102, 14);
+		panel.add(lbl_nr_of_passengers);
 		
 		JButton button_FindFlights = new JButton("Find Flights");
 		button_FindFlights.addActionListener(
 		new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				
 				String fromAirport = txt_fromAirport.getText();
 				String toAirport = txt_toAirport.getText();
 				String dateDeparture = txt_dateDeparture.getText();
-				String dateArrival = txt_dateArrival.getText();
 				String nrPassengersString= txt_nr_passengers.getText();
 				
 
 				int nrPassengers = Integer.parseInt(nrPassengersString);
 				
 				
-				boolean result = findFlights.bookFlight("2015-04-31","RA04", 5, "AK");
+				boolean result = findFlights.bookFlight("2015-04-29","RA04", 5, "RVK");
 				System.out.println(result);
 				/**
 				 * Get right flights for the input parameters
@@ -168,11 +133,14 @@ public class Flight_interface extends JFrame {
 						
 						System.out.println("From airport: " + rightFlights.get(i).getFromAirport());
 						System.out.println("To airport: " + rightFlights.get(i).getToAirport());
+						System.out.println("Date and time departure : " + rightFlights.get(i).getDateDeparture());
+						System.out.println("Arrival time : " + rightFlights.get(i).getDateArrival());
+						System.out.println("Price for each passenger :" + rightFlights.get(i).getPrice());
 					}	
 				}
 			}
 		});
-		button_FindFlights.setBounds(284, 199, 110, 23);
+		button_FindFlights.setBounds(186, 149, 145, 23);
 		panel.add(button_FindFlights);
 	}
 }

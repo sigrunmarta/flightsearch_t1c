@@ -11,6 +11,7 @@ public class FindFlights {
 	Connection conn = null;
 	ResultSet rs = null;
 	PreparedStatement pst = null;
+	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	
 	public ArrayList<Flight> flights;
 	
@@ -19,7 +20,7 @@ public class FindFlights {
 		conn = Db_connector.dbConnect();
 		
 		flights = new ArrayList<Flight>();
-		
+				
 		String sql = "SELECT * FROM Flights WHERE fromAirport=? AND toAirport=? AND dateDeparture=?"
 				+ "AND availableSeats>=?";
 		try{
@@ -31,7 +32,6 @@ public class FindFlights {
 			
 			rs = pst.executeQuery();
 			
-			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			while(rs.next()){
 				/**
 				 * Retrieve data from each row from the result set
@@ -47,7 +47,14 @@ public class FindFlights {
 				/**
 				 * Create a new Flight object with the data
 				 */
-				Flight rightFlight = new Flight(rsFromAirport, rsToAirport, rsDateDeparture, rsDateArrival, rsAvailableSeats, rsPrice, rsFlightNumber);
+				Flight rightFlight = new Flight(rsFromAirport, 
+												rsToAirport, 
+												rsDateDeparture, 
+												rsDateArrival, 
+												rsAvailableSeats, 
+												rsPrice, 
+												rsFlightNumber);
+				
 	
 				/**
 				 * Add the Flight object to a list of flights that
@@ -121,7 +128,7 @@ public class FindFlights {
 	 * @param flightNumber is a String that represents a certain flight path eg."RA04"
 	 * @param nrOfPassangers is an int of how many seats are needed 
 	 * @param fromAirport is the name of the departing airport
-	 * @return
+	 * @return Returns TRUE if successful, FALSE if failed
 	 */
 	public boolean bookFlight (String date, String flightNumber, int nrOfPassangers, String fromAirport){
 		int availableSeats = 0;
@@ -141,7 +148,7 @@ public class FindFlights {
 			
 			while(rs.next()){
 				availableSeats = rs.getInt("availableSeats");
-				System.out.println(availableSeats);
+				
 			}
 		}
 		catch(Exception e){
@@ -153,6 +160,10 @@ public class FindFlights {
 				+ " AND fromAirport=?";
 		
 		int updatedAvailableSeats = availableSeats-nrOfPassangers;
+		if(updatedAvailableSeats < 0){
+			System.out.println("no seats available");
+			return false;
+		}
 		try{
 			pst = conn.prepareStatement(sql2);
 			pst.setInt(1, updatedAvailableSeats);
@@ -160,7 +171,7 @@ public class FindFlights {
 			pst.setString(3, date);
 			pst.setString(4, fromAirport);
 			pst.executeUpdate();
-			
+			System.out.println(updatedAvailableSeats);
 			return true;
 		}
 		catch(Exception e){

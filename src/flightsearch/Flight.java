@@ -4,22 +4,12 @@ public class Flight {
 
 	private String fromAirport;
 	private String toAirport;
-//	private String dateDeparture;
 	private Date dateDeparture;
-//	private String dateArrival;
 	private Date dateArrival;
-//	private String timeDeparture;
-//	private String timeArrival;
 	private int availableSeats;
 	private int price;
 	private String flightNumber;
 	
-	// Constructor for Flight
-//	public Flight(String fromAirport, String toAirport, String dateDeparture,
-//			String dateArrival, String timeDeparture, String timeArrival,
-//			int availableSeats, int price, int flightNumber) {
-//		super();
-		
 		public Flight (	String fromAirport, 
 						String toAirport, 
 						Date dateDeparture,
@@ -27,13 +17,10 @@ public class Flight {
 						int availableSeats, 
 						int price, 
 						String flightNumber) {
-		//	super();
 		this.fromAirport = fromAirport;
 		this.toAirport = toAirport;
 		this.dateDeparture = dateDeparture;
 		this.dateArrival = dateArrival;
-//		this.timeDeparture = timeDeparture;
-//		this.timeArrival = timeArrival;
 		this.availableSeats = availableSeats;
 		this.price = price;
 		this.flightNumber = flightNumber;
@@ -55,55 +42,22 @@ public class Flight {
 		this.toAirport = toAirport;
 	}
 
-//	public String getDateDeparture() {
-//		return dateDeparture;
-//	}
-	
 	public Date getDateDeparture() {
 		return dateDeparture;
 	}
 
-
-//	public void setDateDeparture(String dateDeparture) {
-//		this.dateDeparture = dateDeparture;
-//	}
-	
 	public void setDateDeparture(Date dateDeparture) {
 		this.dateDeparture = dateDeparture;
 	}
 
-//	public String getDateArrival() {
-//		return dateArrival;
-//	}
-	
 	public Date getDateArrival() {
 		return dateArrival;
 	}
-
-//	public void setDateArrival(String dateArrival) {
-//		this.dateArrival = dateArrival;
-//	}
 
 	public void setDateArrival(Date dateArrival) {
 		this.dateArrival = dateArrival;
 	}
 
-
-//	public String getTimeDeparture() {
-//		return timeDeparture;
-//	}
-
-//	public void setTimeDeparture(String timeDeparture) {
-//		this.timeDeparture = timeDeparture;
-//	}
-
-//	public String getTimeArrival() {
-//		return timeArrival;
-//	}
-
-//	public void setTimeArrival(String timeArrival) {
-//		this.timeArrival = timeArrival;
-//	}
 
 	public int getAvailableSeats() {
 		return availableSeats;
